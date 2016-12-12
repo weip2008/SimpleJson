@@ -2,42 +2,26 @@
 
 import UIKit
 
-public struct Airline: JSONConvertable {
-    public var code: String?
+public struct Sample: JSONConvertable {
+    public var id: String?
     public var name: String?
-    public var flightNumber: String?
     
     public init?(JSON: JSONType?) {
         guard let Json = JSON else { return nil }
         guard case .dictionary(let dictionary) = Json else { return nil }
         
-        code = dictionary.value("code")
-        name = dictionary.value("name")
-        flightNumber = dictionary.value("flightNumber")
+        id = dictionary.values("id")
+        name = dictionary.values("name")
     }
 }
 
-let airport = "{\"code\": \"YFF\", \"name\": \"Houston Airport\", \"flightNumber\": \"167\"}"
-
-let data = airport.data(using: .utf8)!
+let sampleString = "{\"id\": \"ABCDEFG\", \"name\": \"Sam Houston\"}"
+let data = sampleString.data(using: .utf8)!
 
 let jsonWithObjectRoot = try? JSONSerialization.jsonObject(with: data, options: [])
-
 let json = JSONType(jsonWithObjectRoot)
 
+let sample = Sample(JSON: json)
 
-let rs = Airline(JSON: json)
-
-print(rs?.name ?? "")
-
-
-//=========================
-
-let passenger = ["name": "weip"]
-print("\(passenger["name"] ?? "") ")
-
-//let x = passenger.value("name")
-
-//print("\(data["name"])")
-
-//let myV = airports.value(key: "YVR")
+print(sample?.id ?? "id is null")
+print(sample?.name ?? "name is null")

@@ -41,20 +41,20 @@ public enum JSONType {
     public func jsonValue(_ key: String) -> JSONType? {
         guard case let .dictionary(_dictionary) = self  else { return nil }
 
-        return JSONType(_dictionary.value(key))
+        return JSONType(_dictionary.values(key))
     }
 }
 
 public extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any {
     
-    public func value<Value>(_ key: String) -> Value? {
+    public func values<Value>(_ key: String) -> Value? {
         return (self[key as! Key] as? Value)
     }
 }
 
 public extension Array where Element : Any {
     
-    public func value<T: JSONConvertable>() -> [T] {
+    public func values<T: JSONConvertable>() -> [T] {
         var finalArray = [T]()
         for item in self {
             let jsonItem = JSONType(item)
